@@ -9,6 +9,7 @@
   #   ports:
   #     - "9200:9200"
   #     - "9300:9300"
+  #   #Elastic Search JVM heap size
   #   environment:
   #     ES_JAVA_OPTS: "-Xmx256m -Xms256m"
 
@@ -20,6 +21,7 @@
   #     - /home/mithil/workspace/Dragsters-backend/logstash/pipeline:/usr/share/logstash/pipeline
   #   ports:
   #     - "5000:5000"
+  #   #Logstash JVM heap size
   #   environment:
   #     LS_JAVA_OPTS: "-Xmx256m -Xms256m"
   #   depends_on:
