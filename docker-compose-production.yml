@@ -1,41 +1,27 @@
 version: '3'
-services:
-  mysql:
-    image: mysql
-    container_name: mysql
-    ports:
-      - 6603:3306
-    environment:
-      - MYSQL_HOST=mysql
-      - MYSQL_PORT=3306
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
-      - MYSQL_DATABASE=test
-      - MYSQL_ROOT_PASSWORD=rootroot
-    volumes:
-      - /storage/docker/mysql_data:/var/lib/mysql 
 
-  nodewebapp:
-    depends_on:
-      - mysql
-    build: 
-      context: ./  
-    container_name: node-web-app
-    command: node server.js
+services:
+  nodeapp:
+    image: nodeapp
+    container_name: nodeapp
+    #Sets the mysql port that need to be exposed as per (machine port : container port).
     ports:
-      - 8080:80
+      - 3000:5000
+    #Sets environment variables required for the container in the production.env file to point to rds.
+    env_file:
+      - production.env   
+    #Sets the volume as per (src : dest) ,src can be any location in the users/remote machine ,logs can be persisted at this location.
     volumes:
-      - /var/www/html/modules
-      - /var/www/html/profiles
-      - /var/www/html/themes
-      - /var/www/html/sites
-    links:
-      - mysql:mysql
+      - web_portal_logs:/home/DragsterBackendApp/log
+    #On container startup for node app following command will be executed(in this case the command toi startup the app is executed)
+    command: node ./bin/start  
     restart: always
- 
+
 volumes:
-  mysql_data:
- 
-networks:
-  nodewebapp_mysql_net:
-    driver: bridge
+    #Mount volumes for the node app logs.
+    web_portal_logs:  
+
+#Creates the default bridge network {appname}_default and add the services to it.
+#networks:
+
+

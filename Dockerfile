@@ -1,23 +1,25 @@
 FROM node:8.9.1
 
 # Create app directory
-ENV HOME=/home/app
+ENV HOME=/home/DragsterBackendApp
 
+# Set working directory
 WORKDIR $HOME
 
 # Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
+
 COPY package*.json ./
 
-RUN npm install
-# If you are building your code for production
-# RUN npm install --global npm@5.5.1
+# Installing this explicitly as the package.json is not added with pm2 
+RUN npm install pm2 -g
 
-# Bundle app source
+RUN npm install 
+
+# Copy the app from current directory to /home/DragsterBackendApp of container
 COPY . .
 
-EXPOSE 8080
-CMD [ "npm", "start" ]
+# Exposes 5000 port for incoming requests from outside the network
+EXPOSE 5000
+
 
 

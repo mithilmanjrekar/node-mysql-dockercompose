@@ -1,0 +1,31 @@
+  # elasticsearch:
+  #   image: elasticsearch
+  #   container_name: elasticsearch
+  #   volumes:
+  #     - /home/mithil/workspace/Dragsters-backend/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+  #   ports:
+  #     - "9200:9200"
+  #     - "9300:9300"
+  #   environment:
+  #     ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+
+  # logstash:
+  #   image: docker.elastic.co/logstash/logstash:5.4.0
+  #   container_name: logstash  
+  #   volumes:
+  #     - /home/mithil/workspace/Dragsters-backend/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+  #     - /home/mithil/workspace/Dragsters-backend/logstash/pipeline:/usr/share/logstash/pipeline
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+  #   depends_on:
+  #     - elasticsearch
+
+  # kibana:
+  #   image: kibana
+  #   container_name: kibana  
+  #   ports:
+  #     - "5601:5601"
+  #   depends_on:
+  #     - elasticsearch
