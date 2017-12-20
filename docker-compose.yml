@@ -35,12 +35,14 @@ services:
     command: node ./bin/start  
     restart: always
 
-  ngrok:
+ ngrok:
    image: wernight/ngrok
    #Goto localhost:4040 where the ngrok port is exposed and hit the http addresses
    command: "ngrok http nodeapp:5000"
+   #Sets the ngrok port that need to be exposed as per (machine port : container port).
    ports:
    - 4040:4040
+  
   
 
 volumes:
