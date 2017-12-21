@@ -1,23 +1,17 @@
+
 version: '3'
 
-services:
-  #build a new image if there id new dump keeping it in the dump folder
-  mysql:
-    image: mysql_dump_test
-    container_name: mysql
-    #Sets the mysql port that need to be exposed as per (machine port : container port).
-    ports:
-      - 3307:3306
-    #Sets environment variables required for the container in the '.env' file.
-    env_file:
-      - .env  
-    #Sets the volume as per (src : dest) ,src can be any location in the users/remote machine ,data can be persisted at this location.
-    volumes:
-      - mysql_init_data:/var/lib/mysql 
-      
+# '%' is a wildcard with allows any ip address can be replaced with specific ip address  
+# GRANT ALL ON testnpm.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+# FLUSH PRIVILEGES; 
+# EXIT;
+
+# to check the applied permissions
+# SELECT * from information_schema.user_privileges where grantee like "'user'@'%'";
+
+services: 
+
   nodeapp:
-    depends_on:
-      - mysql
     image: nodeapp
     container_name: nodeapp
     #Sets the mysql port that need to be exposed as per (machine port : container port).
@@ -29,27 +23,25 @@ services:
     #Sets the volume as per (src : dest) ,src can be any location in the users/remote machine ,logs can be persisted at this location.
     volumes:
       - web_portal_logs:/home/DragsterBackendApp/log
-    #Sets a link between nodeapp and mysql which lets nodeapp interact with mysql port.
     #On container startup for node app following command will be executed(in this case the command toi startup the app is executed)
     command: node ./bin/start  
     restart: always
-  
+
   ngrok:
-   image: wernight/ngrok
-   #Goto localhost:4040 where the ngrok port is exposed and hit the http addresses
-   command: "ngrok http nodeapp:5000"
-   #Sets the ngrok port that need to be exposed as per (machine port : container port).
-   ports:
-      - 4040:4040
+    image: wernight/ngrok
+    #Goto localhost:4040 where the ngrok port is exposed and hit the http addresses
+    command: "ngrok http nodeapp:5000"
+    #Sets the ngrok port that need to be exposed as per (machine port : container port).
+    ports:
+     - 4040:4040
   
 volumes:
-  #Mount volumes for the mysql data.
-  mysql_init_data:
-  #Mount volumes for the node app logs.
-  web_portal_logs: 
+    #Mount volumes for the mysql data.
+    mysql_data:
+    #Mount volumes for the node app logs.
+    web_portal_logs: 
+ 
 
 #Creates the default bridge network {appname}_default and add the services to it.
 #networks:
-
-
 
