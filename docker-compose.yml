@@ -1,13 +1,12 @@
 version: '3'
-
 # Setup mysql database onh local and pass ip and credentials from .env file.
 # '%' is a wildcard with allows any ip address can be replaced with specific ip address . 
 # GRANT ALL ON database.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
 # FLUSH PRIVILEGES; 
 # EXIT;
-
 # to check the applied permissions.
 # SELECT * from information_schema.user_privileges where grantee like "'user'@'%'";
+
 services: 
   nodeapp:
     image: nodeapp
