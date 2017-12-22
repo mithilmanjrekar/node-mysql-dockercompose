@@ -5,9 +5,9 @@ version: '3'
 # GRANT ALL ON database.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
 # FLUSH PRIVILEGES; 
 # EXIT;
-
 # to check the applied permissions.
 # SELECT * from information_schema.user_privileges where grantee like "'user'@'%'";
+
 services: 
   nodeapp:
     image: nodeapp
