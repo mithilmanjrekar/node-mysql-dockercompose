@@ -1,47 +1,41 @@
-
 version: '3'
 
-# '%' is a wildcard with allows any ip address can be replaced with specific ip address  
-# GRANT ALL ON testnpm.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+# Setup mysql database onh local and pass ip and credentials from staging.env file.
+# '%' is a wildcard with allows any ip address can be replaced with specific ip address . 
+# GRANT ALL ON database.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
 # FLUSH PRIVILEGES; 
 # EXIT;
 
-# to check the applied permissions
+# to check the applied permissions.
 # SELECT * from information_schema.user_privileges where grantee like "'user'@'%'";
-
 services: 
-
   nodeapp:
     image: nodeapp
     container_name: nodeapp
     #Sets the mysql port that need to be exposed as per (machine port : container port).
     ports:
       - 3000:5000
-    #Sets environment variables required for the container in the .env file
+    #Sets environment variables required for the container in the staging.env file
     env_file:
-      - .env   
+      - staging.env   
     #Sets the volume as per (src : dest) ,src can be any location in the users/remote machine ,logs can be persisted at this location.
     volumes:
       - web_portal_logs:/home/DragsterBackendApp/log
     #On container startup for node app following command will be executed(in this case the command toi startup the app is executed)
     command: node ./bin/start  
     restart: always
-
   ngrok:
     image: wernight/ngrok
     #Goto localhost:4040 where the ngrok port is exposed and hit the http addresses
     command: "ngrok http nodeapp:5000"
     #Sets the ngrok port that need to be exposed as per (machine port : container port).
     ports:
-     - 4040:4040
-  
+      - 4040:4040
 volumes:
-    #Mount volumes for the mysql data.
-    mysql_data:
-    #Mount volumes for the node app logs.
-    web_portal_logs: 
- 
-
+  #Mount volumes for the mysql data.
+  mysql_data:
+  #Mount volumes for the node app logs.
+  web_portal_logs: 
 #Creates the default bridge network {appname}_default and add the services to it.
 #networks:
 
