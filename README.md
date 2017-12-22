@@ -18,3 +18,6 @@ Files needed to be shifted to the project.
 4. docker-compose-production.yml
    command: docker-compose -f docker-compose-production.yml up
    description: This will run the node app and will point to rds remote db the credentials host and all the details need to                     be passed using the production.env file or if there is any other file please update it in the production                       compose file. 
+
+
+The elkdocker-compose:- creates and links elastic logstash and kibana but fails for some reason(need to figure that out)  Jenkinsfile :- Is just a structure and the code needs to be build around it which will automate running docker compose and running it on dev,staging or deploying it to production.  
