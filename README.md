@@ -4,7 +4,7 @@ Currently we need to build the node 8.9.1 image from the Dockerfile which will b
 Files needed to be shifted to the project.
 
 1. Dockerfile
-   command: docker build --name node ./
+   command: docker build -t nodeapp ./
    description: This will create a image named node which is the name written in the dockerfile incase the name is changed                     please reflect the same in the dockerfile.
    
 2. docker-compose.yml 
