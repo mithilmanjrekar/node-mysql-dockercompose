@@ -23,7 +23,7 @@ pipeline {
             steps {
                 
                 echo 'Building dependencies...'
-                sh './start_docker_webapp.sh'
+                sh './start-docker-webapp.sh'
   
             }
         }
