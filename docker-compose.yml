@@ -31,8 +31,6 @@ services:
     ports:
       - 4040:4040
 volumes:
-  #Mount volumes for the mysql data.
-  mysql_data:
   #Mount volumes for the node app logs.
   web_portal_logs: 
 #Creates the default bridge network {appname}_default and add the services to it.
