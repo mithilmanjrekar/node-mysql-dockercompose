@@ -1,6 +1,6 @@
 version: '3.4'
 
-# These details need to be configured inside the secrets file and set to node app configs.   
+# Mysql host connection details need to be configured inside the secrets file and set to node app configs.   
 # '%' is a wildcard with allows any ip address can be replaced with specific ip address  
 # GRANT ALL ON database.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
 # FLUSH PRIVILEGES; 
