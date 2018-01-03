@@ -19,12 +19,12 @@ services:
       - dragsters_overlay_net
     ports:
       - 3000:5000  
-    command: node ./bin/start  
+    command:  node ./bin/start  
     volumes:
       - web_portal_logs:/home/DragsterBackendApp/log
     deploy:
       mode: replicated 
-      replicas: 4
+      replicas: 5
       restart_policy:
         condition: on-failure
         delay: 0s
@@ -49,18 +49,30 @@ services:
         delay: 0s
         window: 120s
 
+  visualizer:
+    image: dockersamples/visualizer:stable
+    networks:
+        - dragsters_overlay_net
+    ports:
+      - "8081:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: 
+          - node.hostname == manager1
+        
+
 volumes:
   web_portal_logs:
 
 networks:
   dragsters_overlay_net:
     driver: overlay
-    driver_opts:
-      encrypted: "true"
+    attachable: true
                                                                                                                                
 secrets:                                                                      
-    mysql_credentials: 
-        file: ./mysql_credentials                                                                
-        external: True                                                        
+  mysql_credentials: 
+    file: ./secrets.sh                                                                                                                        
 # Code that supports secrets to pick up in node app (keep them git ignored)
 # const mysql_credentials = fs.readFileSync('/run/secrets/mysql_credentials', 'utf8').trim(); 
