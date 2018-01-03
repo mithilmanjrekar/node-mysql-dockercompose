@@ -13,6 +13,12 @@ services:
     image: nodeapp
     env_file:
       - .env
+    environment: 
+      - MYSQL_ROOT_HOST_FILE=/run/secrets/mysql_root_host
+      - MYSQL_PORT=3306
+      - MYSQL_USER_FILE=/run/secrets/mysql_user
+      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
+      - MYSQL_DATABASE_FILE=/run/secrets/mysql_database
     labels:
       - "Dragsters Node Backend Swarm Instance for WebPortal."
     networks:
@@ -30,7 +36,10 @@ services:
         delay: 0s
         window: 120s
     secrets:                                                                  
-      - mysql_credentials    
+      - mysql_root_host
+      - mysql_user
+      - mysql_password
+      - mysql_database
 
   ngrok:
     image: wernight/ngrok
@@ -62,7 +71,7 @@ services:
         constraints: 
           - node.hostname == manager1
         
-
+        
 volumes:
   web_portal_logs:
 
@@ -70,9 +79,17 @@ networks:
   dragsters_overlay_net:
     driver: overlay
     attachable: true
-                                                                                                                               
-secrets:                                                                      
-  mysql_credentials: 
-    file: ./secrets.sh                                                                                                                        
-# Code that supports secrets to pick up in node app (keep them git ignored)
-# const mysql_credentials = fs.readFileSync('/run/secrets/mysql_credentials', 'utf8').trim(); 
+
+secrets: 
+  mysql_root_host:
+    external: true
+  mysql_user:
+    external: true
+  mysql_password:
+    external: true
+  mysql_database:
+    external: true 
+    
+# Create secrets with below syntax
+# echo "secret" | docker secret create secret_name -
+# Put secret after echo and give the secret name as passed in environment variable files above.
