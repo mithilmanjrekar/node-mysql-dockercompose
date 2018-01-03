@@ -83,17 +83,13 @@ networks:
 secrets: 
   mysql_root_host:
     external: true
-    external_name: mysql_root_host
   mysql_user:
     external: true
-    external_name: mysql_user
   mysql_password:
     external: true
-    external_name: mysql_password
   mysql_database:
     external: true 
-    external_name: mysql_database
     
 # Create secrets with below syntax
 # echo "secret" | docker secret create secret_name -
-# Put secret after echo and give the secret name as passed in environment variable files above/or pass external_name if any.
+# Put secret after echo and give the secret name as passed in environment variable files above.
