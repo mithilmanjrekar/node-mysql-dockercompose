@@ -5,16 +5,13 @@ node {
     }
     stage('prepare') {
 
-       app = docker.build("getintodevops/hellonode")
+       app = docker.build("nodeapp")
 
     }
     stage('compile') {
 
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("2")
-            app.push("latest")
-        }
-
+      echo  "sh start-docker-swarm-stack.sh"
+    
     }
     stage('test') {
       echo "doing some cleanup..."
