@@ -5,12 +5,12 @@ node {
     }
     stage('Build Image.') {
 
-       nodeapp = docker.build("mithilmnjrkr/nodeapp")
+       nodeapp = docker.build("nodeapp")
 
     }
     stage('Push to Registry.') {
 
-      sh("docker push mithilmnjrkr/nodeapp")
+      echo "push docker to node app"
     
     }
     stage('Stack Deploy Test') {
