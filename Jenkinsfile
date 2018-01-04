@@ -2,14 +2,13 @@ pipeline {
   agent any
 
   environment {
-    DOCKERHUB = credentials('dockerhubcredentials')
     CI        = 'true' 
   }
   
   stages {
     stage ('Checkout Code') {
         steps {
-            echo "yo dockerhub" + DOCKERHUB
+           
             sh "which git"
             checkout scm
         }
