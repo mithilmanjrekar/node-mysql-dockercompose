@@ -27,10 +27,10 @@ pipeline {
           steps {
              
               withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubcredentials',
-                usernameVariable: 'DOCKERHUB_USR', passwordVariable: 'DOCKERHUB_PSW']]) {
+                usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASSWORD']]) {
 
-                    sh 'echo uname=$DOCKERHUB_USR pwd=$DOCKERHUB_USR'
-                    sh "docker login -u $DOCKERHUB_USR -p $DOCKERHUB_USR"
+                    sh 'echo uname=$DOCKERHUB_USER pwd=$DOCKERHUB_PASSWORD'
+                    sh "docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD"
 
               }
           }
@@ -39,9 +39,9 @@ pipeline {
         steps {
 
           sh 'env'
-          sh "docker build -t $DOCKERHUB_USR/${env.JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER} ."
+          sh "docker build -t $DOCKERHUB_USER/${env.JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER} ."
           sh "docker ps"
-          
+
         }
 
     }
