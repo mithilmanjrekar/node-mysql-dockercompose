@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage ('Checkout Code') {
       steps {
-        echo "" + DOCKERHUB
+        echo "yo dockerhub" + DOCKERHUB
         sh "which git"
         checkout scm
       }
