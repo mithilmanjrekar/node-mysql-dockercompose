@@ -17,7 +17,7 @@ pipeline {
         steps {
 
             sh "echo Add build commands here"
-            
+
         }
     }
     stage('Dockerhub login') {
@@ -44,7 +44,7 @@ pipeline {
 
             sh 'env'
             sh "docker push mithilmnjrkr/nodeapp"
-            sh "sudo docker rmi mithilmnjrkr/nodeapp"
+            sh "docker rmi mithilmnjrkr/nodeapp"
 
         }
     }
