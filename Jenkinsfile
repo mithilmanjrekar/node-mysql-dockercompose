@@ -45,7 +45,6 @@ pipeline {
 
               sh 'env'
               sh "docker push mithilmnjrkr/nodeapp"
-              sh "docker rmi mithilmnjrkr/nodeapp"
               echo "Successfully pushed image to the docker registry."
 
         }
@@ -54,11 +53,12 @@ pipeline {
     stage ('Docker Build App Single Node Swarm') {
         steps {
 
-            sh "docker stack deploy --compose-file docker-compose-stack.yml dragsters_app"
-            sh "docker stack ls"
-            echo "Successfully running docker stack with no faliures."
-            sh "docker rm dragsters_app"
-            echo "Removed docker stack."
+              sh "docker stack deploy -c docker-compose-stack.yml dragsters_app"
+              sh "docker stack ls"
+              echo "Successfully running docker stack with no faliures."
+              sh "docker rm dragsters_app"
+              sh "docker rmi mithilmnjrkr/nodeapp"
+              echo "Removed docker stack."
 
         }
     }
