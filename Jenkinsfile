@@ -56,7 +56,7 @@ pipeline {
               sh "docker stack deploy -c docker-compose-stack.yml dragsters_app"
               sh "docker stack ls"
               echo "Successfully running docker stack with no faliures."
-              sh "docker rm dragsters_app"
+              sh "docker stack rm dragsters_app"
               sh "docker rmi mithilmnjrkr/nodeapp"
               echo "Removed docker stack."
 
