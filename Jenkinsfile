@@ -10,9 +10,8 @@ node {
     }
     stage('compile') {
       
+      sh("start-docker-swarm-stack.sh")
 
-      sh  "./start-docker-swarm-stack.sh"
-    
     }
     stage('test') {
       echo "doing some cleanup..."
