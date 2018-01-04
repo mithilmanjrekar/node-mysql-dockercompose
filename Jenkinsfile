@@ -7,23 +7,26 @@ pipeline {
   
   stages {
     stage ('Checkout Code') {
-      steps {
-        echo "yo dockerhub" + DOCKERHUB
-        sh "which git"
-        checkout scm
-      }
+        steps {
+            echo "yo dockerhub" + DOCKERHUB
+            sh "which git"
+            checkout scm
+        }
     }
     stage ('Build app') {
-      steps {
-        sh "echo Add build commands here"
-      }
+        steps {
+            sh "echo Add build commands here"
+        }
     }
     stage('Dockerhub login') {
         steps {
-            withCredentials([usernamePassword(credentialsId: 'dockerhubcredentials', passwordVariable: 'PASSWORD', usernameVariable: '')]) {
-               sh "docker login -u USERNAME -p PASSWORD"
+           
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubcredentials',
+              usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+
+                  sh 'echo uname=$USERNAME pwd=$PASSWORD'
+                  sh "docker login -u $USERNAME -p $PASSWORD"
             }
-            
         }
     }
     stage('Docker build') {
