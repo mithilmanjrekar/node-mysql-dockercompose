@@ -13,11 +13,6 @@ node {
       echo "Here if the build is successfull the image will be pushed to remote registry."
     
     }
-    stage('') {
-     
-      echo ""
-    
-    }
     stage('Stack Deploy Test') {
       
       sh("docker -v")
@@ -37,7 +32,7 @@ node {
     stage('publish') {
 
       echo "doing some cleanup..."
-      
+
     }
   } finally {
 
