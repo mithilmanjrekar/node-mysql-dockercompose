@@ -1,48 +1,28 @@
 pipeline {
-    agent any
-
-    environment { 
-        CI = 'true'
+  agent none
+  stages {
+    stage('Test Stage') {
+      agent {
+        docker {
+          image 'node:8.9.1'
+        }
+      }
+      steps {
+        sh 'node -v'
+      }
     }
-    
-    stages {
-        stage('Initialize') {
-         
-                echo 'Initializing...'
-                echo 'Do all the initail steps check if git and docker is installed.'
-         
-        }
-
-        stage('Checkout') {
-            
-                echo 'Getting source code...'
-                checkout scm
-            
-        }
-        stage('Build') {
-            steps {
-                
-                echo 'Building dependencies...'
-                sh './start-docker-webapp.sh'
+    stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t shanem/spring-petclinic:latest .'
+      }
+    }
+    stage('Docker Push') {
+      agent any
+      steps {
   
-            }
         }
-        stage('Test') {
-            steps {
-                
-                echo 'Testing...'
-                sh './test_webapp.sh'
-          
-                    
-            }
-        }
-        stage('Deliver') { 
-            steps {
-                
-                echo 'Pushing app to staging/production...'
-                sh './deliver_webapp.sh'
-                
-            }
-        }
+      }
     }
+  }
 }
