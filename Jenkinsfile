@@ -1,27 +1,26 @@
-pipeline {
-    agent none
-    stages {
-    stage('Test Stage') {
-      agent {
-        docker {
-          image 'node:8.9.1'
-        }
-      }
-      steps {
-        sh 'node -v'
-      }
+node {
+  try {
+    stage('checkout') {
+      echo "doing some cleanup..."
     }
-    stage('Docker Build') {
-      agent any
-      steps {
-        sh 'docker build -t shanem/spring-petclinic:latest .'
-      }
+    stage('prepare') {
+      echo "doing some cleanup..."
     }
-    stage('Docker Push') {
-      agent any
-      steps {
-
-        }
-      }
+    stage('compile') {
+      echo "doing some cleanup..."
     }
+    stage('test') {
+      echo "doing some cleanup..."
+    }
+    stage('package') {
+      echo "doing some cleanup..."
+    }
+    stage('publish') {
+      echo "doing some cleanup..."
+    }
+  } finally {
+    stage('cleanup') {
+      echo "doing some cleanup..."
+    }
+  }
 }
