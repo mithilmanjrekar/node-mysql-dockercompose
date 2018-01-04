@@ -31,8 +31,8 @@ pipeline {
     }
     stage('Docker build') {
         steps {
-            sh 'env'
-          sh "docker build -t $DOCKERHUB_USR/${env.JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER} ."
+          echo '******************************************************************************************'
+          sh "docker build ${declare -l env.JOB_NAME}:${declare -l env.GIT_BRANCH}-${env.BUILD_NUMBER} ."
         }
     }
     stage('Docker push') {
