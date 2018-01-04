@@ -3,12 +3,22 @@ node {
     stage('checkout') {
       checkout scm
     }
-    stage('prepare') {
+    stage('Build Image.') {
 
        app = docker.build("nodeapp")
 
     }
-    stage('compile') {
+    stage('Push to Registry.') {
+
+      echo "Here if the build is successfull the image will be pushed to remote registry."
+    
+    }
+    stage('') {
+     
+      echo ""
+    
+    }
+    stage('Stack Deploy Test') {
       
       sh("docker -v")
 
@@ -22,21 +32,20 @@ node {
       sh("docker stack ls")
 
       sh("docker stack rm dragsters_overlay")
-
-
-    }
-    stage('test') {
-      echo "doing some cleanup..."
-    }
-    stage('package') {
-      echo "doing some cleanup..."
+    
     }
     stage('publish') {
+
       echo "doing some cleanup..."
+      
     }
   } finally {
+
     stage('cleanup') {
+
       echo "doing some cleanup..."
+
     }
+
   }
 }
