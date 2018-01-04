@@ -57,7 +57,6 @@ pipeline {
               sh "docker stack ls"
               echo "Successfully running docker stack with no faliures."
               sh "docker stack rm dragsters_app"
-              sh "docker rmi mithilmnjrkr/nodeapp"
               echo "Removed docker stack."
 
         }
