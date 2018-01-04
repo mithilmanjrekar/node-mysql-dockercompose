@@ -2,13 +2,6 @@ pipeline {
   agent any
 
   environment {
-    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubcredentials',
-              usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-       
-        USERNAME_ENV = USERNAME
-        PASSWORD_ENV = PASSWORD
-                
-    }
     DOCKERHUB = credentials('dockerhubcredentials')
     CI        = 'true' 
   }
@@ -31,8 +24,12 @@ pipeline {
     stage('Dockerhub login') {
         steps {
 
-            sh 'echo uname=USERNAME_ENV pwd=PASSWORD_ENV'
-            sh "docker login -u USERNAME_ENV -p PASSWORD_ENV"
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubcredentials',
+              usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+
+                  sh 'echo uname=$USERNAME pwd=$PASSWORD'
+                  sh "docker login -u $USERNAME -p $PASSWORD"
+            }
 
         }
     }
