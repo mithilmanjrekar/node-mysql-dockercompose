@@ -4,10 +4,17 @@ node {
       checkout scm
     }
     stage('prepare') {
-      sh "docker -v"
+
+       app = docker.build("getintodevops/hellonode")
+
     }
     stage('compile') {
-      echo "doing some cleanup..."
+
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+            app.push("2")
+            app.push("latest")
+        }
+
     }
     stage('test') {
       echo "doing some cleanup..."
