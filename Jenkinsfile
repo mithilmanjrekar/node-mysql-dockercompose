@@ -50,7 +50,7 @@ pipeline {
         }
     }
 
-    stage ('Docker Build App Single Node Swarm') {
+    stage ('Docker Build App Stack') {
         steps {
 
               sh "docker stack deploy -c docker-compose-stack.yml dragsters_app"
@@ -59,6 +59,14 @@ pipeline {
               sh "docker stack rm dragsters_app"
               echo "Removed docker stack."
 
+        }
+    }
+    
+    stage('Docker Swarm Test') {
+        steps {
+          
+              echo "Docker Swarm Test"
+          
         }
     }
 
