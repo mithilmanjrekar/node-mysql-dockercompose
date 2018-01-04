@@ -1,41 +1,47 @@
-node {
-  try {
-    stage('checkout') {
-      checkout scm
+pipeline { 
+  agent any
+
+  environment {
+    DOCKERHUB = credentials('dockerhubcredentials')
+  }
+  
+  stages {
+    stage ('Checkout Code') {
+      steps {
+        echo "" + DOCKERHUB
+        sh "which git"
+        checkout scm
+      }
     }
-    stage('Build Image.') {
-
-       nodeapp = docker.build("nodeapp")
-
+    stage ('Build app') {
+      steps {
+        sh "echo Add build commands here"
+      }
     }
-    stage('Push to Registry.') {
-
-      echo "push docker to node app"
-    
+    stage('Dockerhub login') {
+        steps {
+            sh "sudo docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW"
+        }
     }
-    stage('Stack Deploy Test') {
-      
-      sh("docker -v")
-
-      sh("docker stack deploy -c docker-compose-stack.yml dragsters_overlay")
-
-      sh("docker stack ls")
-
-      sh("docker stack rm dragsters_overlay")
-    
+    stage('Docker build') {
+        steps {
+            sh 'env'
+          sh "sudo docker build -t $DOCKERHUB_USR/${env.JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER} ."
+        }
     }
-    stage('publish') {
-
-      echo "doing some cleanup..."
-
+    stage('Docker push') {
+        steps {
+            sh 'env'
+            sh "sudo docker push $DOCKERHUB_USR/${env.JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER}"
+          sh "curl -k http://${env.ST2_URL}/api/v1/webhooks/codecommit -d '{\"name\": \"${env.JOB_NAME}\", \"build\": {\"branch\": \"${env.GIT_BRANCH}\", \"status\": \"SUCCESS\", \"number\": \"${env.BUILD_ID}\"}}' -H 'Content-Type: application/json' -H 'st2-api-key: ${env.ST2_API_KEY}'"
+          sh "sudo docker rmi $DOCKERHUB_USR/${env.JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER}"
+        }
     }
-  } finally {
-
-    stage('cleanup') {
-
-      echo "doing some cleanup..."
-
-    }
-
+  }
+  post {
+        always {
+            echo 'Janitor Cleaning the workspace'
+            deleteDir() /* clean up our workspace */
+     }
   }
 }
