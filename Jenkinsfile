@@ -20,6 +20,7 @@ pipeline {
     }
     stage('Dockerhub login') {
         steps {
+           sh "docker login -u DOCKERHUB_USR -p DOCKERHUB_PSW
            
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubcredentials',
               usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
