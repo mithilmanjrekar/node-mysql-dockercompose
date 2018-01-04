@@ -20,7 +20,7 @@ pipeline {
     }
     stage('Dockerhub login') {
         steps {
-           
+
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubcredentials',
               usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 
@@ -31,8 +31,8 @@ pipeline {
     }
     stage('Docker build') {
         steps {
-          echo '******************************************************************************************'
-          sh "docker build ${declare -l env.JOB_NAME}:${declare -l env.GIT_BRANCH}-${env.BUILD_NUMBER} ."
+            sh 'env'
+          sh "docker build -t ${env.JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER} ."
         }
     }
     stage('Docker push') {
