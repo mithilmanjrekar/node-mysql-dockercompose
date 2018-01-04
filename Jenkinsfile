@@ -10,7 +10,6 @@ node {
     }
     stage('compile') {
       
-      sh("start-docker-swarm-stack.sh")
       sh("docker -v")
 
       sh("echo '172.21.32.12' | docker secret create mysql_root_host -")
