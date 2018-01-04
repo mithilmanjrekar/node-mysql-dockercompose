@@ -7,43 +7,33 @@ pipeline {
   
   stages {
     stage ('Checkout Code') {
-          steps {
-
-              echo "yo dockerhub" + DOCKERHUB
-              sh "which git"
-              checkout scm
-
-          }
+        steps {
+            echo "yo dockerhub" + DOCKERHUB
+            sh "which git"
+            checkout scm
+        }
     }
-    stage ('Build App') {
-          steps {
-
-
-              sh "echo Add build commands here"
-
-          }
+    stage ('Build app') {
+        steps {
+            sh "echo Add build commands here"
+        }
     }
-    stage('Dockerhub Login') {
-          steps {
-             
-              withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubcredentials',
-                usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASSWORD']]) {
+    stage('Dockerhub login') {
+        steps {
+           
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubcredentials',
+              usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 
-                    sh 'echo uname=$DOCKERHUB_USER pwd=$DOCKERHUB_PASSWORD'
-                    sh "docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD"
-
-              }
-          }
+                  sh 'echo uname=$USERNAME pwd=$PASSWORD'
+                  sh "docker login -u $USERNAME -p $PASSWORD"
+            }
+        }
     }
     stage('Docker build') {
         steps {
-
-          sh 'env'
-          sh "docker build -t $DOCKERHUB_USER/${env.JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER} ."
-          sh "docker ps"
-
+            sh 'env'
+          sh "docker build -t $DOCKERHUB_USR/${env.JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER} ."
         }
-
     }
     stage('Docker push') {
         steps {
