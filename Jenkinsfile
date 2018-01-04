@@ -1,10 +1,10 @@
 node {
   try {
     stage('checkout') {
-      echo "doing some cleanup..."
+      checkout scm
     }
     stage('prepare') {
-      echo "doing some cleanup..."
+      sh "docker -v"
     }
     stage('compile') {
       echo "doing some cleanup..."
