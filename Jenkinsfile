@@ -1,6 +1,6 @@
 pipeline {
-  agent none
-  stages {
+    agent none
+    stages {
     stage('Test Stage') {
       agent {
         docker {
@@ -20,9 +20,8 @@ pipeline {
     stage('Docker Push') {
       agent any
       steps {
-  
+
         }
       }
     }
-  }
 }
