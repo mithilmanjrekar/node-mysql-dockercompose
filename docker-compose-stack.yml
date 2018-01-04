@@ -10,7 +10,7 @@ version: '3.4'
 
 services:
   nodeapp:
-    image: nodeapp
+    image: mithilmnjrkr/nodeapp
     env_file:
       - .env
     environment: 
