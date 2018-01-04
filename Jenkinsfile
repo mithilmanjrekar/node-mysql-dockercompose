@@ -31,7 +31,6 @@ pipeline {
             steps {
                 
                 echo 'Testing...'
-                #run the test cases for the webapp running in docker compose
                 sh './test_webapp.sh'
           
                     
