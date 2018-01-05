@@ -82,11 +82,11 @@ services:
         - jenkins_home:/var/jenkins_home
     deploy:
       mode: replicated
-        replicas: 1
-        restart_policy:
-          condition: on-failure
-          delay: 0s
-          window: 120s
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 0s
+        window: 120s
       placement:
         constraints: [node.role == manager1]
         
