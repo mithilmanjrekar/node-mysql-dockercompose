@@ -53,7 +53,7 @@ pipeline {
     stage ('Docker Build App Stack') {
         steps {
 
-              sh "docker stack deploy -c docker-compose-stack.yml dragsters_app"
+              sh "docker stack deploy -c docker-stack.yml dragsters_app"
               sh "docker stack ls"
               echo "Successfully running docker stack with no faliures."
               sh "docker stack rm dragsters_app"
