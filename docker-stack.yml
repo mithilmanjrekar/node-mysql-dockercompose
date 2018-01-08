@@ -58,31 +58,20 @@ services:
         delay: 0s
         window: 120s
 
-  visualizer:
-    image: dockersamples/visualizer:stable
-    networks:
-        - dragsters_overlay_net
-    ports:
-      - "8081:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    deploy:
-      mode: replicated
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-        delay: 0s
-        window: 120s
 
   jenkins:
-    image: jenkins
+    image: jenkins:2.60.3-alpine
     environment:
-        - JENKINS_OPTS='--prefix=/jenkins'
+       - JENKINS_OPTS='--prefix=/jenkins'
+    ports:
+       - 8080:8080
+       - 50000:50000
     networks:
-      - dragsters_overlay_net
+       - dragsters_overlay_net
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
-        - jenkins_home:/var/jenkins_home
+	      - /usr/bin/docker:/usr/bin/docker
+        - jenkins_home:/var/jenkins_home        
     deploy:
       mode: replicated
       replicas: 1
@@ -94,12 +83,12 @@ services:
         
 volumes:
   web_portal_logs:
-  jenkins_home:  
-
+  jenkins_home: 
+ 
 networks:
   dragsters_overlay_net:
     driver: overlay
-    attachable: true
+    
 
 secrets: 
   mysql_root_host:
