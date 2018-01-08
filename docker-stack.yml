@@ -69,8 +69,8 @@ services:
     networks:
        - dragsters_overlay_net
     volumes:
+        - /usr/bin/docker:/usr/bin/docker
         - /var/run/docker.sock:/var/run/docker.sock
-	- /usr/bin/docker:/usr/bin/docker
         - jenkins_home:/var/jenkins_home        
     deploy:
       mode: replicated
@@ -103,3 +103,4 @@ secrets:
 # Create secrets with below syntax
 # echo "secret" | docker secret create secret_name -
 # Put secret after echo and give the secret name as passed in environment variable files above.
+
