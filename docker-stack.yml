@@ -60,16 +60,13 @@ services:
 
 
   jenkins:
-    image: jenkins:2.60.3-alpine
-    environment:
-       - JENKINS_OPTS='--prefix=/jenkins'
+    image: jenkins
     ports:
-       - 8080:8080
+       - 8090:8080
        - 50000:50000
     networks:
        - dragsters_overlay_net
     volumes:
-        - /usr/bin/docker:/usr/bin/docker
         - /var/run/docker.sock:/var/run/docker.sock
         - jenkins_home:/var/jenkins_home        
     deploy:
@@ -79,7 +76,6 @@ services:
         condition: on-failure
         delay: 0s
         window: 120s
-        
         
 volumes:
   web_portal_logs:
@@ -98,7 +94,7 @@ secrets:
   mysql_password:
     external: true
   mysql_database:
-    external: true 
+    external: true    
     
 # Create secrets with below syntax
 # echo "secret" | docker secret create secret_name -
