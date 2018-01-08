@@ -57,7 +57,7 @@ pipeline {
     stage('Docker Swarm Test') {
         steps {
           
-              echo "Docker Swarm Test/Deploy will come here."
+              echo "Docker Swarm Test/Deploy will come here. For production we ssh to remote pull git repo and deploy the stack with prodcution secrets."
           
         }
     }
