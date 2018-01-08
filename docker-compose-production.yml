@@ -1,32 +1,64 @@
-version: '3'
+version: '3.4'
 
-# Setup mysql database onh local and pass ip and credentials from production.env file.
-# '%' is a wildcard with allows any ip address can be replaced with specific ip address . 
+# Mysql host connection details need to be configured inside the secrets file and set to node app configs.   
+# '%' is a wildcard with allows any ip address can be replaced with specific ip address  
 # GRANT ALL ON database.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
 # FLUSH PRIVILEGES; 
 # EXIT;
-# to check the applied permissions.
+# to check the applied permissions
 # SELECT * from information_schema.user_privileges where grantee like "'user'@'%'";
 
-services: 
+services:
   nodeapp:
-    image: nodeapp
-    container_name: nodeapp
-    #Sets the mysql port that need to be exposed as per (machine port : container port).
-    ports:
-      - 3000:5000
-    #Sets environment variables required for the container in the production.env file
+    image: mithilmnjrkr/nodeapp
     env_file:
-      - production.env   
-    #Sets the volume as per (src : dest) ,src can be any location in the users/remote machine ,logs can be persisted at this location.
+      - .env
+    environment: 
+      - MYSQL_ROOT_HOST_FILE=/run/secrets/mysql_root_host
+      - MYSQL_PORT=3306
+      - MYSQL_USER_FILE=/run/secrets/mysql_user
+      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
+      - MYSQL_DATABASE_FILE=/run/secrets/mysql_database
+    labels:
+      - "Dragsters Node Backend Swarm Instance for WebPortal."
+    networks:
+      - dragsters_overlay_net
+    ports:
+      - 3000:5000  
+    command:  node ./bin/start  
     volumes:
       - web_portal_logs:/home/DragsterBackendApp/log
-    #On container startup for node app following command will be executed(in this case the command toi startup the app is executed)
-    command: node ./bin/start  
-    restart: always
+    deploy:
+      mode: replicated 
+      replicas: 5
+      restart_policy:
+        condition: on-failure
+        delay: 0s
+        window: 120s
+    secrets:                                                                  
+      - mysql_root_host
+      - mysql_user
+      - mysql_password
+      - mysql_database
+        
 volumes:
-  #Mount volumes for the node app logs.
-  web_portal_logs: 
-#Creates the default bridge network {appname}_default and add the services to it.
-#networks:
+  web_portal_logs:
+ 
+networks:
+  dragsters_overlay_net:
+    driver: overlay
+    
 
+secrets: 
+  mysql_root_host:
+    external: true
+  mysql_user:
+    external: true
+  mysql_password:
+    external: true
+  mysql_database:
+    external: true    
+    
+# Create secrets with below syntax
+# echo "secret" | docker secret create secret_name -
+# Put secret after echo and give the secret name as passed in environment variable files above.
