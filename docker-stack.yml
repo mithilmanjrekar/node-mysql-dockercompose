@@ -70,7 +70,7 @@ services:
        - dragsters_overlay_net
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
-	      - /usr/bin/docker:/usr/bin/docker
+	- /usr/bin/docker:/usr/bin/docker
         - jenkins_home:/var/jenkins_home        
     deploy:
       mode: replicated
