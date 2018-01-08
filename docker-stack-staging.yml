@@ -24,8 +24,7 @@ services:
     networks:
       - dragsters_overlay_net
     ports:
-      - 3000:5000  
-    command:  node ./bin/start  
+      - 3000:5000   
     volumes:
       - web_portal_logs:/home/DragsterBackendApp/log
     deploy:
