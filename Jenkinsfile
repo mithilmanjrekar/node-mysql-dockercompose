@@ -12,7 +12,6 @@ pipeline {
            
             sh "which git"
             checkout scm
-            echo "Checked git branch."
         }
     }
 
@@ -21,10 +20,8 @@ pipeline {
 
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhubcredentials',
               usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-
                   sh 'echo uname=$USERNAME pwd=$PASSWORD'
                   sh "docker login -u $USERNAME -p $PASSWORD"
-                  echo "Logged in into docker."
             }
 
         }
@@ -35,7 +32,6 @@ pipeline {
 
               sh 'env'
               sh "docker build -t mithilmnjrkr/nodeapp ."
-              echo "Build docker image from Dcokerfile."
 
         }
     }
@@ -45,7 +41,6 @@ pipeline {
 
               sh 'env'
               sh "docker push mithilmnjrkr/nodeapp"
-              echo "Successfully pushed image to the docker registry."
 
         }
     }
@@ -55,9 +50,7 @@ pipeline {
 
               sh "docker stack deploy -c docker-stack.yml dragsters_app"
               sh "docker stack ls"
-              echo "Successfully running docker stack with no faliures."
               sh "docker stack rm dragsters_app"
-              echo "Removed docker stack."
 
         }
     }
@@ -65,7 +58,7 @@ pipeline {
     stage('Docker Swarm Test') {
         steps {
           
-              echo "Docker Swarm Test"
+              echo "Docker Swarm Test/Deploy will come here."
           
         }
     }
