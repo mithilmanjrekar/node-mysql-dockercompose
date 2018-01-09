@@ -15,7 +15,6 @@ RUN npm install
 # Exposes 5000 port for incoming requests from outside the network
 EXPOSE 5000
 
-CMD [ "node", "/home/DragsterBackendApp/bin/start" ]
 
 
 
