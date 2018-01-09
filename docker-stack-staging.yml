@@ -21,10 +21,12 @@ services:
       - MYSQL_DATABASE_FILE=/run/secrets/mysql_database
     labels:
       - "Dragsters Node Backend Swarm Instance for WebPortal."
+    command:
+      - node /home/DragsterBackendApp/bin/start
     networks:
       - dragsters_overlay_net
     ports:
-      - 3000:5000   
+      - 3000:5000  
     volumes:
       - web_portal_logs:/home/DragsterBackendApp/log
     deploy:
@@ -39,9 +41,11 @@ services:
       - mysql_user
       - mysql_password
       - mysql_database
-
+      
   jenkins:
     image: jenkins
+    labels:
+      - "Dragsters Jenkins Swarm Instance for CI/CD."
     ports:
        - 8090:8080
        - 50000:50000
@@ -80,3 +84,4 @@ secrets:
 # Create secrets with below syntax
 # echo "secret" | docker secret create secret_name -
 # Put secret after echo and give the secret name as passed in environment variable files above.
+
