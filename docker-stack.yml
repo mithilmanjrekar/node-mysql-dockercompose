@@ -22,7 +22,7 @@ services:
     labels:
       - "Dragsters Node Backend Swarm Instance for WebPortal."
     command:
-      - node /home/DragsterBackendApp/bin/start
+      - node ./bin/start
     networks:
       - dragsters_overlay_net
     ports:
