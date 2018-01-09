@@ -21,6 +21,8 @@ services:
       - MYSQL_DATABASE_FILE=/run/secrets/mysql_database
     labels:
       - "Dragsters Node Backend Swarm Instance for WebPortal."
+    command:
+      - node /home/DragsterBackendApp/bin/start
     networks:
       - dragsters_overlay_net
     ports:
@@ -42,33 +44,32 @@ services:
 
   jenkins:
     image: jenkins
-    hostname: jenkins
-    environment:
-        - JENKINS_OPTS='--prefix=/jenkins'
+    labels:
+      - "Dragsters Jenkins Swarm Instance for CI/CD."
+    ports:
+       - 8090:8080
+       - 50000:50000
     networks:
-      - dragsters_overlay_net
+       - dragsters_overlay_net
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
-        - jenkins_home:/var/jenkins_home
+        - jenkins_home:/var/jenkins_home        
     deploy:
       mode: replicated
-        replicas: 1
-        restart_policy:
-          condition: on-failure
-          delay: 0s
-          window: 120s
-      placement:
-        constraints: [node.role == manager1]
-        
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 0s
+        window: 120s
         
 volumes:
   web_portal_logs:
-  jenkins_home:  
-
+  jenkins_home: 
+ 
 networks:
   dragsters_overlay_net:
     driver: overlay
-    attachable: true
+    
 
 secrets: 
   mysql_root_host:
@@ -78,8 +79,9 @@ secrets:
   mysql_password:
     external: true
   mysql_database:
-    external: true 
+    external: true    
     
 # Create secrets with below syntax
 # echo "secret" | docker secret create secret_name -
 # Put secret after echo and give the secret name as passed in environment variable files above.
+
